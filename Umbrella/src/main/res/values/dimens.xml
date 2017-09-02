@@ -1,4 +1,11 @@
 <resources>
     <dimen name="default_margin">16dp</dimen>
     <dimen name="default_padding">16dp</dimen>
+    
+    <!-- WeatherActivity -->
+    <dimen name="currentConditionsCardHeight">260dp</dimen>
+    <dimen name="textLarge">48sp</dimen>
+    <dimen name="textMedium">16sp</dimen>
+    <dimen name="textSmall">12sp</dimen>
+
 </resources>

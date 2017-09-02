@@ -13,4 +13,6 @@
 
     <!-- Forecast card colors -->
     <color name="forecast_card_divider">#ccc</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

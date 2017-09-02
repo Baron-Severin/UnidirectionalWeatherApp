@@ -30,24 +30,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--android:text="@{currentVm.location}"-->
         <TextView
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:text="@{currentVm.location}"
             android:textColor="@color/content_background"
             android:textSize="@dimen/textMedium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--android:text="@{currentVm.temperature}"-->
         <TextView
             android:id="@+id/tv_currentTemperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="0dp"
-
+            android:text="@{currentVm.temperature}"
             android:textColor="@color/content_background"
             android:textSize="@dimen/textLarge"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -55,13 +53,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--android:text="@{currentVm.description}"-->
         <TextView
             android:id="@+id/tv_currentDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-
+            android:text="@{currentVm.description}"
             android:textColor="@color/content_background"
             android:textSize="@dimen/textMedium"
             app:layout_constraintLeft_toLeftOf="@+id/tv_currentTemperature"

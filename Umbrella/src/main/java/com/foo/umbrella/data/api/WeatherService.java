@@ -2,11 +2,13 @@ package com.foo.umbrella.data.api;
 
 import com.foo.umbrella.BuildConfig;
 import com.foo.umbrella.data.model.WeatherData;
+
+import io.reactivex.Observable;
 import retrofit2.Call;
-import retrofit2.adapter.rxjava.Result;
+
+import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * Retrofit interface for fetching weather data

@@ -1,33 +1,32 @@
 buildscript {
   repositories {
     jcenter()
+    mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.3'
-    classpath 'me.tatarka:gradle-retrolambda:3.4.0'
-    classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
+    classpath 'com.android.tools.build:gradle:3.0.0-beta4'
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
   }
 }
 
 repositories{
   jcenter()
+  mavenCentral()
+  maven {
+    url "https://maven.google.com"
+  }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.github.ben-manes.versions'
 
-// Use `com.foo.umbrella.weatherundergroundapikey` in gradle.properties or as a command line
-// parameter or `WEATHER_UNDERGROUND_API_KEY` as a System Environment variable to provide weather
-// underground api key to this project
 ext.weatherUndergroundApiKey = project.hasProperty('com.foo.umbrella.weatherundergroundapikey')?
     project.getProperty('com.foo.umbrella.weatherundergroundapikey'):
     System.getenv('WEATHER_UNDERGROUND_API_KEY')?:''
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion '25.0.1'
+  compileSdkVersion 26
+  buildToolsVersion '25.0.2'
 
   signingConfigs {
     umbrella {
@@ -38,10 +37,14 @@ android {
     }
   }
 
+  dataBinding {
+    enabled = true
+  }
+
   defaultConfig {
     applicationId "com.foo.umbrella"
     minSdkVersion 19
-    targetSdkVersion 25
+    targetSdkVersion 26
     versionCode 1
     versionName '1.0'
 
@@ -63,13 +66,15 @@ android {
   }
 }
 
+ext.androidSupportVersion = '26.0.2'
+
 dependencies {
-  compile 'com.android.support:support-v4:25.1.0'
-  compile 'com.android.support:support-annotations:25.1.0'
-  compile 'com.android.support:appcompat-v7:25.1.0'
-  compile 'com.android.support:recyclerview-v7:25.1.0'
-  compile 'com.android.support:design:25.1.0'
-  compile 'com.android.support:cardview-v7:25.1.0'
+  compile "com.android.support:support-v4:${androidSupportVersion}"
+  compile "com.android.support:support-annotations:${androidSupportVersion}"
+  compile "com.android.support:appcompat-v7:${androidSupportVersion}"
+  compile "com.android.support:recyclerview-v7:${androidSupportVersion}"
+  compile "com.android.support:design:${androidSupportVersion}"
+  compile "com.android.support:cardview-v7:${androidSupportVersion}"
 
   provided 'com.google.auto.value:auto-value:1.3'
   provided 'com.ryanharter.auto.value:auto-value-moshi-annotations:0.4.2'
@@ -78,20 +83,24 @@ dependencies {
   compile 'com.squareup.okhttp3:okhttp:3.5.0'
   compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
   compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.squareup.retrofit2:retrofit:2.1.0'
-  compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+  compile 'com.squareup.retrofit2:retrofit:2.3.0'
+  compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
   compile 'com.squareup.retrofit2:converter-moshi:2.1.0'
   compile 'com.squareup.moshi:moshi:1.3.1'
-
-  compile 'io.reactivex:rxjava:1.2.5'
-  compile 'io.reactivex:rxandroid:1.2.1'
 
   compile 'com.jakewharton.byteunits:byteunits:0.9.1'
   compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
   compile 'com.jakewharton.timber:timber:4.5.1'
   compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
-  compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+  // RxJava 2
+  compile "io.reactivex.rxjava2:rxjava:2.1.0"
+  compile 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+  compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+  //Dagger 2
+  compile 'com.google.dagger:dagger:2.9'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
 
   debugCompile 'com.facebook.stetho:stetho:1.4.2'
   debugCompile 'com.facebook.stetho:stetho-okhttp3:1.4.2'

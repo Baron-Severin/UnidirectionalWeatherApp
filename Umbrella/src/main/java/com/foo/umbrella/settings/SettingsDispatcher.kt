@@ -2,6 +2,7 @@ package com.foo.umbrella.settings
 
 import com.foo.umbrella.dataFlow.Event
 import com.foo.umbrella.dataFlow.SetUnitEvent
+import com.foo.umbrella.dataFlow.SetZipEvent
 import com.foo.umbrella.dataFlow.State
 import io.reactivex.subjects.Subject
 
@@ -11,6 +12,8 @@ class SettingsDispatcher(private val eventSubject: Subject<Event>) {
     eventSubject.onNext(SetUnitEvent(setTo))
   }
 
-
+  fun onZipClicked(newZip: String) {
+    eventSubject.onNext(SetZipEvent(newZip))
+  }
 
 }

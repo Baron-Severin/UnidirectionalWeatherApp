@@ -5,6 +5,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,6 +60,12 @@ public class SettingActivity extends AppCompatActivity {
     });
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    disposable.dispose();
+  }
+
   private void onUnitClicked() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("Select your preferred unit of measurement");
@@ -67,11 +75,18 @@ public class SettingActivity extends AppCompatActivity {
   }
 
   private void onZipClicked() {
-
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Select your Zip code");
+    EditText input = new EditText(SettingActivity.this);
+    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams.MATCH_PARENT);
+    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+    builder.setView(input);
+    builder.setPositiveButton("Continue", ((dialogInterface, i) -> settingsDispatcher.onZipClicked(input.getText().toString())));
+    builder.setNegativeButton("Cancel", ((dialogInterface, i) -> dialogInterface.cancel()));
+    builder.create().show();
   }
-
-
-
 
 }
 

@@ -12,7 +12,8 @@ class Reducer {
     when (event) {
       is WeatherResponseEvent -> return updateWeatherFromResponse(state, event)
       is SetUnitEvent -> return setNewUnit(state, event)
-      else -> throw RuntimeException("Event not implented")//TODO: flesh this out
+      is SetZipEvent -> return setNewZip(state, event)
+      else -> throw RuntimeException("Event not implented")
     }
   }
 
@@ -87,6 +88,10 @@ class Reducer {
 
   private fun setNewUnit(state: State, event: SetUnitEvent) : State {
     return state.copy(settings = state.settings.copy(unit = event.newUnit))
+  }
+
+  private fun setNewZip(state: State, event: SetZipEvent) : State {
+    return state.copy(settings = state.settings.copy(zip = event.newZip.toInt()))
   }
 
 }

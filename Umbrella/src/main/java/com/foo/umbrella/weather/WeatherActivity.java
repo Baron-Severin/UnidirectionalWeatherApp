@@ -54,6 +54,7 @@ public class WeatherActivity extends AppCompatActivity {
       binding.rvForecast.setAdapter(new ForecastCardAdapter(state.getCards()));
       binding.setCurrentVm(state.getCurrentConditionsVm());
       toolbar.setTitle(state.getCurrentConditionsVm().getLocation());
+      weatherDispatcher.setZip(state.getSettings().getZip());
     });
   }
 

@@ -78,7 +78,7 @@ class Reducer {
         now == warmestHour && now != coldestHour -> State.Color.WARM
         else -> State.Color.NORMAL
       }
-      
+
       hours.add(ForecastHourModel(temperature, icon, hour, color))
     }
     return ForecastCardModel(name, hours)

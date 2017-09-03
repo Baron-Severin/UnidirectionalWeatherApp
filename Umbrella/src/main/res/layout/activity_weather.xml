@@ -13,29 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            app:setHeaderColor="@{currentVm.color}"
+            android:elevation="4dp"
             android:padding="@dimen/default_padding"
-            android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{currentVm.location}"
-                android:textColor="@color/content_background"
-                android:textSize="@dimen/textMedium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:setHeaderColor="@{currentVm.color}">
 
             <TextView
                 android:id="@+id/tv_currentTemperature"
@@ -45,7 +43,6 @@
                 android:text="@{currentVm.temperature}"
                 android:textColor="@color/content_background"
                 android:textSize="@dimen/textLarge"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,14 +61,6 @@
                 tools:layout_editor_absoluteX="0dp" />
 
             <!--TODO: content description-->
-            <ImageButton
-                android:id="@+id/ib_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_settings_white_24dp" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -52,11 +52,23 @@ class Reducer {
       val temperature = if (unit == State.TemperatureUnit.FAHRENHEIT)
         hourForecast.tempFahrenheit
       else hourForecast.tempCelsius
-      val hour = hourForecast.displayTime
-      val icon = hourForecast.icon
+      val baseHour = if (hourForecast.displayTime[1] == ':') hourForecast.displayTime.substring(0, 1)
+                    else hourForecast.displayTime.substring(0, 2)
+      val hour = when {
+        baseHour == "0" -> "Midnight"
+        baseHour == "12" -> "Noon"
+        baseHour.toInt() < 12 -> "$baseHour:00 AM"
+        else -> "$baseHour:00 PM"
+      }
+      val baseIcon = hourForecast.icon
+      val correctedIcon = when (baseIcon) {
+        "clear" -> "sunny"
+        else -> baseIcon
+      }
+      val icon = "weather_${correctedIcon}"
 
       // TODO: map icon string to drawable
-      hours.add(ForecastHourModel(temperature, 0, hour))
+      hours.add(ForecastHourModel(temperature, icon, hour))
     }
     return ForecastCardModel(name, hours)
   }

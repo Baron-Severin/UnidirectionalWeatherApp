@@ -35,7 +35,8 @@ class ForecastHourAdapter(val models: List<ForecastHourModel>) : RecyclerView.Ad
     val model = models[position]
     holder.tvHour.text = model.hour
     holder.tvTemperature.text = model.temperature
-    holder.ivIcon.setImageResource(model.icon)
+    val id = holder.ivIcon.context.getResources().getIdentifier(model.icon, "drawable", holder.ivIcon.context.getPackageName())
+    holder.ivIcon.setImageResource(id)
   }
 
   override fun getItemCount(): Int {

@@ -2,6 +2,7 @@ package com.foo.umbrella.weather.adapters
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.foo.umbrella.R
+import com.foo.umbrella.dataFlow.State
 import com.foo.umbrella.weather.models.ForecastHourModel
 import kotlinx.android.synthetic.main.item_forecast_hour.view.*
 
@@ -35,8 +37,17 @@ class ForecastHourAdapter(val models: List<ForecastHourModel>) : RecyclerView.Ad
     val model = models[position]
     holder.tvHour.text = model.hour
     holder.tvTemperature.text = model.temperature
-    val id = holder.ivIcon.context.getResources().getIdentifier(model.icon, "drawable", holder.ivIcon.context.getPackageName())
+    val context = holder.ivIcon.context
+    val id = context.getResources().getIdentifier(model.icon, "drawable", context.getPackageName())
     holder.ivIcon.setImageResource(id)
+    val color = when (model.color) {
+      State.Color.COLD -> ContextCompat.getColor(context, R.color.weather_cool)
+      State.Color.WARM -> ContextCompat.getColor(context, R.color.weather_warm)
+      else -> ContextCompat.getColor(context, R.color.text_color_primary)
+    }
+    holder.tvHour.setTextColor(color)
+    holder.tvTemperature.setTextColor(color)
+    holder.ivIcon.setColorFilter(color)
   }
 
   override fun getItemCount(): Int {

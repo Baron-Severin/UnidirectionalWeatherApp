@@ -48,6 +48,8 @@ class Reducer {
       else -> day[0].dateTime.dayOfWeek.name.toLowerCase().capitalize()
     }
     val hours = mutableListOf<ForecastHourModel>()
+    val daySortedByTemp = day.sortedBy { it.tempFahrenheit }
+
     day.forEachIndexed {index, hourForecast ->
       val temperature = if (unit == State.TemperatureUnit.FAHRENHEIT)
         hourForecast.tempFahrenheit
@@ -58,7 +60,7 @@ class Reducer {
         baseHour == "0" -> "Midnight"
         baseHour == "12" -> "Noon"
         baseHour.toInt() < 12 -> "$baseHour:00 AM"
-        else -> "$baseHour:00 PM"
+        else -> "${baseHour.toInt() - 12}:00 PM"
       }
       val baseIcon = hourForecast.icon
       val correctedIcon = when (baseIcon) {
@@ -67,8 +69,17 @@ class Reducer {
       }
       val icon = "weather_${correctedIcon}"
 
-      // TODO: map icon string to drawable
-      hours.add(ForecastHourModel(temperature, icon, hour))
+      val coldestHour = daySortedByTemp.first().displayTime
+      val warmestHour = daySortedByTemp.last().displayTime
+      val now = hourForecast.displayTime
+
+      val color = when {
+        now == coldestHour && now != warmestHour -> State.Color.COLD
+        now == warmestHour && now != coldestHour -> State.Color.WARM
+        else -> State.Color.NORMAL
+      }
+      
+      hours.add(ForecastHourModel(temperature, icon, hour, color))
     }
     return ForecastCardModel(name, hours)
   }

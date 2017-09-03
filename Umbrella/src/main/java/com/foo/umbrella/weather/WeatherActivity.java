@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.foo.umbrella.R;
-import com.foo.umbrella.Store;
+import com.foo.umbrella.dataFlow.State;
+import com.foo.umbrella.dataFlow.Store;
 import com.foo.umbrella.UmbrellaApp;
 import com.foo.umbrella.databinding.ActivityWeatherBinding;
 import com.foo.umbrella.weather.adapters.ForecastCardAdapter;
@@ -18,34 +19,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import io.reactivex.Observable;
+
+import static com.foo.umbrella.dagger.WeatherModule.STATE_OBSERVABLE;
 
 public class WeatherActivity extends AppCompatActivity {
 
   @Inject Store store;
+  @Inject WeatherDispatcher weatherDispatcher;
+  @Inject @Named(STATE_OBSERVABLE) Observable<State> stateObservable;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     ((UmbrellaApp)getApplication()).getAppComponent().inject(this);
-
-    CurrentConditionsVm currentVm = new CurrentConditionsVm("100*", "Goodish", "Walnut Creek");
+    
     ActivityWeatherBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
-    binding.setCurrentVm(currentVm);
+    stateObservable.subscribe((state) -> {
+      binding.rvForecast.setAdapter(new ForecastCardAdapter(state.getCards()));
+      binding.setCurrentVm(state.getCurrentConditionsVm());
+    });
+    weatherDispatcher.setZip(94597);
 
-
-    // todo temp hardcoding
-    List<ForecastCardModel> cards = new ArrayList<>();
-    List<ForecastHourModel> hours = new ArrayList<>();
-    hours.add(new ForecastHourModel("100*", R.drawable.weather_cloudy, "1:00PM"));
-    hours.add(new ForecastHourModel("100*", R.drawable.weather_cloudy, "2:00PM"));
-    hours.add(new ForecastHourModel("100*", R.drawable.weather_cloudy, "3:00PM"));
-    hours.add(new ForecastHourModel("100*", R.drawable.weather_cloudy, "4:00PM"));
-    hours.add(new ForecastHourModel("100*", R.drawable.weather_cloudy, "5:00PM"));
-    cards.add(new ForecastCardModel(0, "Today", hours));
-
-    ForecastCardAdapter cardAdapter = new ForecastCardAdapter(cards);
-    binding.rvForecast.setAdapter(cardAdapter);
     binding.rvForecast.setLayoutManager(new LinearLayoutManager(this));
-    // todo end temp hardcoding
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    weatherDispatcher.requestUpdate();
   }
 }

@@ -15,9 +15,11 @@ import kotlinx.android.synthetic.main.item_forecast_card.view.*
 class ForecastCardAdapter(val models: List<ForecastCardModel>) : RecyclerView.Adapter<ForecastCardAdapter.ViewHolder>() {
 
   inner class ViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+    val tvName : TextView
     val rvHours : RecyclerView
     val context : Context
     init {
+      tvName = view.tv_name
       rvHours = view.rv_hours
       context = view.context
     }
@@ -31,6 +33,7 @@ class ForecastCardAdapter(val models: List<ForecastCardModel>) : RecyclerView.Ad
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val model = models[position]
+    holder.tvName.text = model.name
     holder.rvHours.adapter = ForecastHourAdapter(model.hourModels)
     holder.rvHours.layoutManager = GridLayoutManager(holder.context, 4)
   }

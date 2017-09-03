@@ -6,3 +6,4 @@ abstract class Event
 
 data class RequestFailedEvent(val message: String) : Event()
 data class WeatherResponseEvent(val response: WeatherData) : Event()
+data class SetUnitEvent(val setTo: State.TemperatureUnit) : Event()

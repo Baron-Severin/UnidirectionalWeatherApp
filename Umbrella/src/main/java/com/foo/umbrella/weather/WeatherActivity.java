@@ -1,5 +1,6 @@
 package com.foo.umbrella.weather;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,7 @@ import com.foo.umbrella.dataFlow.State;
 import com.foo.umbrella.dataFlow.Store;
 import com.foo.umbrella.UmbrellaApp;
 import com.foo.umbrella.databinding.ActivityWeatherBinding;
+import com.foo.umbrella.settings.SettingsActivity;
 import com.foo.umbrella.weather.adapters.ForecastCardAdapter;
 import com.foo.umbrella.weather.models.CurrentConditionsVm;
 import com.foo.umbrella.weather.models.ForecastCardModel;
@@ -74,7 +76,8 @@ public class WeatherActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()){
       case R.id.item_settings:
-        // todo start settings activity here
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
         break;
       default:
         break;

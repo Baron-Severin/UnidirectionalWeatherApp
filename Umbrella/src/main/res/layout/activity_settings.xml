@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.foo.umbrella.settings.SettingsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/ll_zip"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zip"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/textMedium" />
+
+        <TextView
+            android:id="@+id/tv_currentZip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="94597" />
+    </LinearLayout>
+
+    <Space
+        android:id="@+id/space3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#CC0000"
+        app:layout_constraintTop_toBottomOf="@+id/ll_zip"
+        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_unit"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Units"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/textMedium" />
+
+        <TextView
+            android:id="@+id/tv_currentUnits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fahrenheit" />
+    </LinearLayout>
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#CC0000"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/ll_unit"
+        tools:layout_editor_absoluteX="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>

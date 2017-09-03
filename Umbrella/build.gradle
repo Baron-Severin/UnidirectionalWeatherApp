@@ -4,7 +4,7 @@ buildscript {
     mavenCentral()
   }
 
-  ext.android_plugin_version="3.0.0-beta4"
+  ext.android_plugin_version = "3.0.0-beta4"
 
   dependencies {
     classpath "com.android.tools.build:gradle:$android_plugin_version"

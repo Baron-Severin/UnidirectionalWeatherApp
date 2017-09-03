@@ -15,4 +15,7 @@
     <color name="forecast_card_divider">#ccc</color>
 
     <color name="transparent">#00000000</color>
+
+    <!-- Settings -->
+    <color name="settings_toolbar">#757575</color>
 </resources>

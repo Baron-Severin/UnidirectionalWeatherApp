@@ -8,11 +8,17 @@ import com.foo.umbrella.weather.models.ForecastHourModel
 import org.threeten.bp.LocalDateTime
 
 class Reducer {
+
+  val eventLog : MutableList<Event> = mutableListOf()
+
   fun reduce(state: State, event: Event) : State {
+    eventLog.add(event);
+    println("Sevtest: $event")
     when (event) {
       is WeatherResponseEvent -> return updateWeatherFromResponse(state, event)
       is SetUnitEvent -> return setNewUnit(state, event)
       is SetZipEvent -> return setNewZip(state, event)
+      is RequestFailedEvent -> return requestFailed(state, event)
       else -> throw RuntimeException("Event not implented")
     }
   }
@@ -94,4 +100,7 @@ class Reducer {
     return state.copy(settings = state.settings.copy(zip = event.newZip.toInt()))
   }
 
+  private fun requestFailed(state: State, event: RequestFailedEvent) : State {
+    return state.copy(currentConditionsVm = state.currentConditionsVm.copy(location = "Unknown", description = "Request failed. Please check your network connection"))
+  }
 }

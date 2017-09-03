@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.foo.umbrella.R;
 import com.foo.umbrella.UmbrellaApp;
 import com.foo.umbrella.dataFlow.State;
+import com.foo.umbrella.weather.WeatherActivity;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,6 +34,8 @@ public class SettingActivity extends AppCompatActivity {
   private LinearLayout zipLayout;
   private TextView currentZip;
   private TextView currentUnit;
+
+  private boolean zipRequested = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,12 @@ public class SettingActivity extends AppCompatActivity {
       currentUnit.setText(state.getSettings().getUnit().toString());
       currentZip.setText(String.valueOf(state.getSettings().getZip()));
     });
+    if (getIntent().getExtras() != null) {
+      zipRequested = getIntent().getExtras().getBoolean("REQUEST_ZIP");
+    }
+    if (zipRequested) {
+      onZipClicked();
+    }
   }
 
   @Override
@@ -83,33 +92,16 @@ public class SettingActivity extends AppCompatActivity {
         LinearLayout.LayoutParams.MATCH_PARENT);
     input.setInputType(InputType.TYPE_CLASS_NUMBER);
     builder.setView(input);
-    builder.setPositiveButton("Continue", ((dialogInterface, i) -> settingsDispatcher.onZipClicked(input.getText().toString())));
+    builder.setPositiveButton("Continue", ((dialogInterface, i) -> {
+      settingsDispatcher.onZipClicked(input.getText().toString());
+      if (zipRequested) {
+        this.finish();
+        zipRequested = false;
+      }
+    }));
     builder.setNegativeButton("Cancel", ((dialogInterface, i) -> dialogInterface.cancel()));
     builder.create().show();
+
   }
 
 }
-
-
-//  @Inject var settingsDispatcher: SettingsDispatcher? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//    super.onCreate(savedInstanceState)
-//    setContentView(R.layout.activity_settings)
-//
-//    val component =(application as AppComponent).inject(this)
-//
-//    val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-//    toolbar.setTitleTextColor(ContextCompat.getColor(baseContext, R.color.content_background))
-//    toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.settings_toolbar))
-//    toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp));
-//    setSupportActionBar(toolbar)
-//    toolbar.setNavigationOnClickListener { onBackPressed() }
-//    ll_unit.setOnClickListener { onUnitClicked() }
-//    }
-//
-//    fun onUnitClicked() {
-//    val dialogBuilder = AlertDialog.Builder(this)
-//    dialogBuilder.setTitle("Select your preferred unit of measurement")
-////    dialogBuilder.setPositiveButton("Fahrenheit") {  }
-//    }

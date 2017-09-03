@@ -48,14 +48,13 @@ public class WeatherActivity extends AppCompatActivity {
     toolbar.setTitleTextColor(ContextCompat.getColor(getBaseContext(), R.color.content_background));
     setSupportActionBar(toolbar);
 
-    weatherDispatcher.setZip(99501);
-//    weatherDispatcher.setZip(94597);
     disposable = stateObservable.subscribe((state) -> {
       binding.rvForecast.setAdapter(new ForecastCardAdapter(state.getCards()));
       binding.setCurrentVm(state.getCurrentConditionsVm());
       toolbar.setTitle(state.getCurrentConditionsVm().getLocation());
       weatherDispatcher.setZip(state.getSettings().getZip());
     });
+    requestZipFromUser();
   }
 
   @Override
@@ -87,5 +86,11 @@ public class WeatherActivity extends AppCompatActivity {
         break;
     }
     return true;
+  }
+
+  private void requestZipFromUser() {
+    Intent intent = new Intent(this, SettingActivity.class);
+    intent.putExtra("REQUEST_ZIP", true);
+    startActivity(intent);
   }
 }

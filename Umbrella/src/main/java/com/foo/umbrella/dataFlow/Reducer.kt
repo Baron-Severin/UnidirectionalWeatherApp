@@ -9,11 +9,11 @@ import org.threeten.bp.LocalDateTime
 
 class Reducer {
 
+  // In a real application, this would be sent somewhere on error
   val eventLog : MutableList<Event> = mutableListOf()
 
   fun reduce(state: State, event: Event) : State {
     eventLog.add(event);
-    println("Sevtest: $event")
     when (event) {
       is WeatherResponseEvent -> return updateWeatherFromResponse(state, event)
       is SetUnitEvent -> return setNewUnit(state, event)
@@ -59,37 +59,51 @@ class Reducer {
     val daySortedByTemp = day.sortedBy { it.tempFahrenheit }
 
     day.forEachIndexed {index, hourForecast ->
-      val temperature = if (unit == State.TemperatureUnit.Fahrenheit)
+      val temperature = if (unit == State.TemperatureUnit.Fahrenheit) {
         hourForecast.tempFahrenheit
-      else hourForecast.tempCelsius
-      val baseHour = if (hourForecast.displayTime[1] == ':') hourForecast.displayTime.substring(0, 1)
-                    else hourForecast.displayTime.substring(0, 2)
-      val hour = when {
-        baseHour == "0" -> "Midnight"
-        baseHour == "12" -> "Noon"
-        baseHour.toInt() < 12 -> "$baseHour:00 AM"
-        else -> "${baseHour.toInt() - 12}:00 PM"
+      } else {
+        hourForecast.tempCelsius
       }
-      val baseIcon = hourForecast.icon
-      val correctedIcon = when (baseIcon) {
-        "clear" -> "sunny"
-        else -> baseIcon
-      }
-      val icon = "weather_${correctedIcon}"
-
-      val coldestHour = daySortedByTemp.first().displayTime
-      val warmestHour = daySortedByTemp.last().displayTime
-      val now = hourForecast.displayTime
-
-      val color = when {
-        now == coldestHour && now != warmestHour -> State.Color.COLD
-        now == warmestHour && now != coldestHour -> State.Color.WARM
-        else -> State.Color.NORMAL
-      }
+      val hour = normalizeHour(hourForecast)
+      val icon = normalizeIconText(hourForecast.icon)
+      val color = getIconColor(daySortedByTemp, hourForecast)
 
       hours.add(ForecastHourModel(temperature, icon, hour, color))
     }
     return ForecastCardModel(name, hours)
+  }
+
+  private fun normalizeHour(hourForecast : ForecastCondition) : String {
+    val baseHour = if (hourForecast.displayTime[1] == ':') hourForecast.displayTime.substring(0, 1)
+    else hourForecast.displayTime.substring(0, 2)
+    return when {
+      baseHour == "0" -> "Midnight"
+      baseHour == "12" -> "Noon"
+      baseHour.toInt() < 12 -> "$baseHour:00 AM"
+      else -> "${baseHour.toInt() - 12}:00 PM"
+    }
+  }
+
+  private fun normalizeIconText(text: String) : String {
+    val correctedIcon = when (text) {
+      "clear" -> "sunny"
+      "mostlycloudy" -> "cloudy"
+      "chancerain" -> "rainy"
+      else -> text
+    }
+    return "weather_${correctedIcon}"
+  }
+
+  private fun getIconColor(sortedForecasts: List<ForecastCondition>, currentForecast : ForecastCondition) : State.Color {
+    val coldestHour = sortedForecasts.first().displayTime
+    val warmestHour = sortedForecasts.last().displayTime
+    val now = currentForecast.displayTime
+
+    return when {
+      now == coldestHour && now != warmestHour -> State.Color.COLD
+      now == warmestHour && now != coldestHour -> State.Color.WARM
+      else -> State.Color.NORMAL
+    }
   }
 
   private fun setNewUnit(state: State, event: SetUnitEvent) : State {

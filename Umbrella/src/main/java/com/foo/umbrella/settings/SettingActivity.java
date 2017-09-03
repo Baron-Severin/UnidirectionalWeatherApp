@@ -59,7 +59,9 @@ public class SettingActivity extends AppCompatActivity {
 
     disposable = stateObservable.subscribe((state) -> {
       currentUnit.setText(state.getSettings().getUnit().toString());
-      currentZip.setText(String.valueOf(state.getSettings().getZip()));
+      String zipText = String.valueOf(state.getSettings().getZip());
+      if (zipText.equals("-1")) zipText = "Unknown";
+      currentZip.setText(zipText);
     });
     if (getIntent().getExtras() != null) {
       zipRequested = getIntent().getExtras().getBoolean("REQUEST_ZIP");

@@ -25,11 +25,11 @@ class Reducer {
   private fun currentConditionsVmFromResponse(observation: CurrentObservation, unit: State.TemperatureUnit) : CurrentConditionsVm {
     val description = observation.weatherDescription
     val temperature = if (unit == State.TemperatureUnit.FAHRENHEIT) observation.tempFahrenheit else observation.tempCelsius
+    val displayTemp = Math.round(temperature.toDouble()).toString() + "°"
     val location = observation.displayLocation
     val fahrenheitInt = observation.tempFahrenheit.toFloat()
-//    val background = if (fahrenheitInt >= 60) State.BackgroundColor.WARM else State.BackgroundColor.COLD
     val background = if (fahrenheitInt >= 60) 0 else 1
-    return CurrentConditionsVm(description, temperature, location.fullName, background)
+    return CurrentConditionsVm(displayTemp, description, location.fullName, background)
   }
 
   private fun forecastModelsFromResponse(forecasts: List<ForecastCondition>, unit: State.TemperatureUnit) : List<ForecastCardModel> {
@@ -39,15 +39,13 @@ class Reducer {
         .map { cardModelFromOneDay(it, unit) }
   }
 
-
-
   private fun cardModelFromOneDay(day : List<ForecastCondition>, unit: State.TemperatureUnit) : ForecastCardModel {
     val currentDay = LocalDateTime.now().dayOfMonth
     val forecastDay = day[0].dateTime.dayOfMonth
     val name = when {
       forecastDay == currentDay -> "Today"
       forecastDay - currentDay == 1 -> "Tomorrow"
-      else -> day[0].dateTime.dayOfWeek.name
+      else -> day[0].dateTime.dayOfWeek.name.toLowerCase().capitalize()
     }
     val hours = mutableListOf<ForecastHourModel>()
     day.forEachIndexed {index, hourForecast ->
@@ -56,6 +54,7 @@ class Reducer {
       else hourForecast.tempCelsius
       val hour = hourForecast.displayTime
       val icon = hourForecast.icon
+
       // TODO: map icon string to drawable
       hours.add(ForecastHourModel(temperature, 0, hour))
     }

@@ -7,5 +7,11 @@
     <dimen name="textLarge">48sp</dimen>
     <dimen name="textMedium">16sp</dimen>
     <dimen name="textSmall">12sp</dimen>
+    <dimen name="cardHeader">20sp</dimen>
+    <dimen name="hourTextSize">14sp</dimen>
+
+    <dimen name="cardGutter">8dp</dimen>
+    <dimen name="hourMargin">6dp</dimen>
+    <dimen name="iconMargin">4dp</dimen>
 
 </resources>

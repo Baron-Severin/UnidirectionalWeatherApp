@@ -4,11 +4,15 @@
 <LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="@dimen/hourMargin"
+    android:gravity="center"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tv_hour"
+        android:textColor="@color/text_color_primary"
+        android:textSize="@dimen/hourTextSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
@@ -16,12 +20,15 @@
 
     <ImageView
         android:id="@+id/iv_icon"
+        android:layout_margin="@dimen/iconMargin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <TextView
         android:id="@+id/tv_temperature"
+        android:textColor="@color/text_color_primary"
+        android:textSize="@dimen/hourTextSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"

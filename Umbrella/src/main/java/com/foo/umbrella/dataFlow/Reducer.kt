@@ -26,7 +26,10 @@ class Reducer {
     val description = observation.weatherDescription
     val temperature = if (unit == State.TemperatureUnit.FAHRENHEIT) observation.tempFahrenheit else observation.tempCelsius
     val location = observation.displayLocation
-    return CurrentConditionsVm(description, temperature, location.fullName)
+    val fahrenheitInt = observation.tempFahrenheit.toFloat()
+//    val background = if (fahrenheitInt >= 60) State.BackgroundColor.WARM else State.BackgroundColor.COLD
+    val background = if (fahrenheitInt >= 60) 0 else 1
+    return CurrentConditionsVm(description, temperature, location.fullName, background)
   }
 
   private fun forecastModelsFromResponse(forecasts: List<ForecastCondition>, unit: State.TemperatureUnit) : List<ForecastCardModel> {

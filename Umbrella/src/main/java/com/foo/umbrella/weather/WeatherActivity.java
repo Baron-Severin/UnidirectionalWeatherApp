@@ -35,7 +35,7 @@ public class WeatherActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     ((UmbrellaApp)getApplication()).getAppComponent().inject(this);
-    
+
     ActivityWeatherBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
     stateObservable.subscribe((state) -> {
       binding.rvForecast.setAdapter(new ForecastCardAdapter(state.getCards()));

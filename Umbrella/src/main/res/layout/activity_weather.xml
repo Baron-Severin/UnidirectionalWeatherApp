@@ -9,90 +9,86 @@
         <variable name="currentVm" type="com.foo.umbrella.weather.models.CurrentConditionsVm"/>
     </data>
 
-
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
-    <!--TODO: change color programmatically -->
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:background="@color/weather_cool"
-        android:padding="@dimen/default_padding"
-        android:elevation="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{currentVm.location}"
-            android:textColor="@color/content_background"
-            android:textSize="@dimen/textMedium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_currentTemperature"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="0dp"
-            android:text="@{currentVm.temperature}"
-            android:textColor="@color/content_background"
-            android:textSize="@dimen/textLarge"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            app:setHeaderColor="@{currentVm.color}"
+            android:padding="@dimen/default_padding"
+            android:elevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{currentVm.location}"
+                android:textColor="@color/content_background"
+                android:textSize="@dimen/textMedium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_currentTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0dp"
+                android:text="@{currentVm.temperature}"
+                android:textColor="@color/content_background"
+                android:textSize="@dimen/textLarge"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_currentDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{currentVm.description}"
+                android:textColor="@color/content_background"
+                android:textSize="@dimen/textMedium"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_currentTemperature"
+                app:layout_constraintRight_toRightOf="@+id/tv_currentTemperature"
+                app:layout_constraintTop_toBottomOf="@+id/tv_currentTemperature"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <!--TODO: content description-->
+            <ImageButton
+                android:id="@+id/ib_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_settings_white_24dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_forecast"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-        <TextView
-            android:id="@+id/tv_currentDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{currentVm.description}"
-            android:textColor="@color/content_background"
-            android:textSize="@dimen/textMedium"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_currentTemperature"
-            app:layout_constraintRight_toRightOf="@+id/tv_currentTemperature"
-            app:layout_constraintTop_toBottomOf="@+id/tv_currentTemperature"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <!--TODO: content description-->
-        <ImageButton
-            android:id="@+id/ib_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/transparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_settings_white_24dp" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_forecast"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-
-</android.support.constraint.ConstraintLayout>
 
 </layout>

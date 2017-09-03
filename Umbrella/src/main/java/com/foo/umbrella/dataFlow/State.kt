@@ -12,5 +12,8 @@ data class State(val settings: Settings,
   enum class TemperatureUnit {
     FAHRENHEIT, CELCIUS
   }
+  enum class BackgroundColor {
+    WARM, COLD
+  }
 
 }

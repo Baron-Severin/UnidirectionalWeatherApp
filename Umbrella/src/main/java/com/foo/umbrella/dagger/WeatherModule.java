@@ -37,7 +37,7 @@ public class WeatherModule {
 
   public WeatherModule(Application application, BehaviorSubject<State> stateSubject) {
     State.Settings defaultSettings = new State.Settings(State.TemperatureUnit.FAHRENHEIT, 94597);
-    CurrentConditionsVm defaultConditions = new CurrentConditionsVm("-500", "Chilly", "CA?");
+    CurrentConditionsVm defaultConditions = new CurrentConditionsVm("-500", "Chilly", "CA?", 0);
     stateSubject.onNext(new State(defaultSettings, defaultConditions, new ArrayList<>()));
     this.stateSubject = stateSubject;
     this.eventSubject = PublishSubject.<Event>create();

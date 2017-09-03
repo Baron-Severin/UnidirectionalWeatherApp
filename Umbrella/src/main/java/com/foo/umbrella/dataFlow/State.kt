@@ -10,7 +10,7 @@ data class State(val settings: Settings,
   data class Settings(val unit: TemperatureUnit,
                       val zip: Int)
   enum class TemperatureUnit {
-    FAHRENHEIT, CELCIUS
+    Fahrenheit, Celcius;
   }
   enum class Color {
     WARM, COLD, NORMAL

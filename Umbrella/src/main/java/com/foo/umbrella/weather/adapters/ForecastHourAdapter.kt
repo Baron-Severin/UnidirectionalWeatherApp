@@ -36,7 +36,7 @@ class ForecastHourAdapter(val models: List<ForecastHourModel>) : RecyclerView.Ad
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val model = models[position]
     holder.tvHour.text = model.hour
-    holder.tvTemperature.text = model.temperature
+    holder.tvTemperature.text = "${model.temperature}°"
     val context = holder.ivIcon.context
     val id = context.getResources().getIdentifier(model.icon, "drawable", context.getPackageName())
     holder.ivIcon.setImageResource(id)

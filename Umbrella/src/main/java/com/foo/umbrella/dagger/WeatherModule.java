@@ -9,11 +9,9 @@ import com.foo.umbrella.dataFlow.Reducer;
 import com.foo.umbrella.dataFlow.State;
 import com.foo.umbrella.dataFlow.Store;
 
+import com.foo.umbrella.settings.SettingsDispatcher;
 import com.foo.umbrella.weather.WeatherDispatcher;
 import com.foo.umbrella.weather.models.CurrentConditionsVm;
-import com.jakewharton.threetenabp.AndroidThreeTen;
-
-import org.threeten.bp.Clock;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,7 @@ public class WeatherModule {
   private Application application;
 
   public WeatherModule(Application application, BehaviorSubject<State> stateSubject) {
-    State.Settings defaultSettings = new State.Settings(State.TemperatureUnit.FAHRENHEIT, 94597);
+    State.Settings defaultSettings = new State.Settings(State.TemperatureUnit.Fahrenheit, 94597);
     CurrentConditionsVm defaultConditions = new CurrentConditionsVm("-500", "Chilly", "CA?", 0);
     stateSubject.onNext(new State(defaultSettings, defaultConditions, new ArrayList<>()));
     this.stateSubject = stateSubject;
@@ -75,5 +73,10 @@ public class WeatherModule {
     return new ApiServicesProvider(application).getWeatherService();
   }
 
+  @Provides
+  @Singleton
+  SettingsDispatcher providesSettingsDispatcher() {
+    return new SettingsDispatcher(eventSubject);
+  }
 
 }

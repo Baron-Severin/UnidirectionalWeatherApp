@@ -15,19 +15,14 @@ import com.foo.umbrella.dataFlow.State;
 import com.foo.umbrella.dataFlow.Store;
 import com.foo.umbrella.UmbrellaApp;
 import com.foo.umbrella.databinding.ActivityWeatherBinding;
-import com.foo.umbrella.settings.SettingsActivity;
+import com.foo.umbrella.settings.SettingActivity;
 import com.foo.umbrella.weather.adapters.ForecastCardAdapter;
-import com.foo.umbrella.weather.models.CurrentConditionsVm;
-import com.foo.umbrella.weather.models.ForecastCardModel;
-import com.foo.umbrella.weather.models.ForecastHourModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 import static com.foo.umbrella.dagger.WeatherModule.STATE_OBSERVABLE;
 
@@ -36,6 +31,8 @@ public class WeatherActivity extends AppCompatActivity {
   @Inject Store store;
   @Inject WeatherDispatcher weatherDispatcher;
   @Inject @Named(STATE_OBSERVABLE) Observable<State> stateObservable;
+
+  Disposable disposable;
 
   private Toolbar toolbar;
 
@@ -53,7 +50,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     weatherDispatcher.setZip(99501);
 //    weatherDispatcher.setZip(94597);
-    stateObservable.subscribe((state) -> {
+    disposable = stateObservable.subscribe((state) -> {
       binding.rvForecast.setAdapter(new ForecastCardAdapter(state.getCards()));
       binding.setCurrentVm(state.getCurrentConditionsVm());
       toolbar.setTitle(state.getCurrentConditionsVm().getLocation());
@@ -67,6 +64,12 @@ public class WeatherActivity extends AppCompatActivity {
   }
 
   @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    disposable.dispose();
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.settings, menu);
     return super.onCreateOptionsMenu(menu);
@@ -76,7 +79,7 @@ public class WeatherActivity extends AppCompatActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()){
       case R.id.item_settings:
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
         break;
       default:

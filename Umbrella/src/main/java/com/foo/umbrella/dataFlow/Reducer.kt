@@ -11,7 +11,8 @@ class Reducer {
   fun reduce(state: State, event: Event) : State {
     when (event) {
       is WeatherResponseEvent -> return updateWeatherFromResponse(state, event)
-      else -> throw RuntimeException()//TODO: flesh this out
+      is SetUnitEvent -> return setNewUnit(state, event)
+      else -> throw RuntimeException("Event not implented")//TODO: flesh this out
     }
   }
 
@@ -24,7 +25,7 @@ class Reducer {
 
   private fun currentConditionsVmFromResponse(observation: CurrentObservation, unit: State.TemperatureUnit) : CurrentConditionsVm {
     val description = observation.weatherDescription
-    val temperature = if (unit == State.TemperatureUnit.FAHRENHEIT) observation.tempFahrenheit else observation.tempCelsius
+    val temperature = if (unit == State.TemperatureUnit.Fahrenheit) observation.tempFahrenheit else observation.tempCelsius
     val displayTemp = Math.round(temperature.toDouble()).toString() + "°"
     val location = observation.displayLocation
     val fahrenheitInt = observation.tempFahrenheit.toFloat()
@@ -51,7 +52,7 @@ class Reducer {
     val daySortedByTemp = day.sortedBy { it.tempFahrenheit }
 
     day.forEachIndexed {index, hourForecast ->
-      val temperature = if (unit == State.TemperatureUnit.FAHRENHEIT)
+      val temperature = if (unit == State.TemperatureUnit.Fahrenheit)
         hourForecast.tempFahrenheit
       else hourForecast.tempCelsius
       val baseHour = if (hourForecast.displayTime[1] == ':') hourForecast.displayTime.substring(0, 1)
@@ -82,6 +83,10 @@ class Reducer {
       hours.add(ForecastHourModel(temperature, icon, hour, color))
     }
     return ForecastCardModel(name, hours)
+  }
+
+  private fun setNewUnit(state: State, event: SetUnitEvent) : State {
+    return state.copy(settings = state.settings.copy(unit = event.newUnit))
   }
 
 }
